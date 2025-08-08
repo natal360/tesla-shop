@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
 
-  app.setGlobalPrefix('api')
+  app.setGlobalPrefix('api');
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -17,7 +17,7 @@ async function bootstrap() {
     }),
   );
 
-    const config = new DocumentBuilder()
+  const config = new DocumentBuilder()
     .setTitle('Tesla RESTFull API')
     .setDescription('Tesla shop endpoints')
     .setVersion('1.0')
@@ -25,7 +25,9 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
+  app.enableCors();
+
   await app.listen(process.env.PORT);
-  logger.log(`App running on port ${ process.env.PORT }`);
+  logger.log(`App running on port ${process.env.PORT}`);
 }
 bootstrap();
